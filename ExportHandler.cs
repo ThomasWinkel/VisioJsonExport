@@ -1,10 +1,5 @@
-﻿using Microsoft.Office.Interop.Visio;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Visio = Microsoft.Office.Interop.Visio;
 
 namespace Geradeaus.VisioJsonExport
@@ -135,7 +130,7 @@ namespace Geradeaus.VisioJsonExport
                     {
                         shape1.Master = shape.Master.Name;
                     }
-                    
+
                     if (Convert.ToBoolean(shape.SectionExists[(short)Visio.VisSectionIndices.visSectionUser, (short)Visio.VisExistsFlags.visExistsAnywhere]))
                     {
                         Visio.Section section = shape.Section[(short)Visio.VisSectionIndices.visSectionUser];
