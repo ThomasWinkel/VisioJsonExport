@@ -29,6 +29,14 @@ namespace Geradeaus.VisioJsonExport
         public string Value { get; set; }
     }
 
+    public class Connect
+    {
+        public int Index { get; set; }
+        public int ToShape { get; set; }
+        public string ToPoint { get; set; }
+        public string ToPointD { get; set; }
+    }
+
     public class Shape
     {
         public int ID { get; set; }
@@ -41,17 +49,23 @@ namespace Geradeaus.VisioJsonExport
         public Dictionary<string, UserRow> UserRows { get; set; } = new Dictionary<string, UserRow>();
         public Dictionary<string, PropRow> PropRows { get; set; } = new Dictionary<string, PropRow>();
         public Dictionary<string, ConnectionPoint> ConnectionPoints { get; set; } = new Dictionary<string, ConnectionPoint>();
+        public List<Connect> Connects { get; set; } = new List<Connect>();
+        public List<int> Layers { get; set; } = new List<int>();
     }
 
-    public class Connector
+    public class Layer
     {
-        public int ID { get; set; }
-        public int FromShape { get; set; }
-        public int ToShape { get; set; }
-        public string FromPoint { get; set; }
-        public string ToPoint { get; set; }
-        public string FromPointD { get; set; }
-        public string ToPointD { get; set; }
+        public int Index { get; set; }
+        public string Name { get; set; }
+        public string NameU { get; set; }
+        public bool Visible { get; set; }
+        public bool Print { get; set; }
+        public bool Active { get; set; }
+        public bool Lock { get; set; }
+        public bool Snap { get; set; }
+        public bool Glue { get; set; }
+        public int Color { get; set; }
+        public double ColorTrans { get; set; }
     }
 
     public class Page
@@ -62,6 +76,7 @@ namespace Geradeaus.VisioJsonExport
         public Dictionary<string, UserRow> UserRows { get; set; } = new Dictionary<string, UserRow>();
         public Dictionary<string, PropRow> PropRows { get; set; } = new Dictionary<string, PropRow>();
         public Dictionary<int, Shape> Shapes { get; set; } = new Dictionary<int, Shape>();
+        public Dictionary<int, Layer> Layers { get; set; } = new Dictionary<int, Layer>();
     }
 
     public class Master

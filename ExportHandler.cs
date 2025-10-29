@@ -74,7 +74,7 @@ namespace Geradeaus.VisioJsonExport
                 master1.ID = master.ID;
                 master1.OneD = Convert.ToBoolean(master.OneD);
 
-                VisioModel.Document.Masters[master.Name] = master1;
+                VisioModel.Document.Masters[master1.Name] = master1;
             }
 
             foreach (Visio.Page page in Document.Pages)
@@ -184,10 +184,58 @@ namespace Geradeaus.VisioJsonExport
                         }
                     }
 
-                    page1.Shapes[shape.ID] = shape1;
+                    for (short i = 1; i <= shape.LayerCount; i++)
+                    {
+                        shape1.Layers.Add(shape.Layer[i].Index);
+                    }
+                    
+                    foreach (Visio.Connect connect in shape.Connects)
+                    {
+                        Connect connect1 = new Connect();
+                        connect1.Index = connect.Index;
+
+                        connect1.ToShape = connect.ToSheet.ID;
+
+                        try
+                        {
+                            if (connect.ToCell.RowName == "")
+                            {
+                                connect1.ToPoint = connect.ToCell.ContainingRow.Index.ToString();
+                            }
+                            else
+                            {
+                                connect1.ToPoint = connect.ToCell.RowName;
+                                connect1.ToPointD = connect.ToCell.ContainingRow[(short)Visio.VisCellIndices.visCnnctD].ResultStr[""];
+                            }
+                        }
+                        catch { }
+                        
+                        shape1.Connects.Add(connect1);
+                    }
+
+                    foreach (Visio.Layer layer in page.Layers)
+                    {
+                        Layer layer1 = new Layer();
+                        layer1.Index = layer.Index;
+
+                        layer1.Name = layer.Name;
+                        layer1.NameU = layer.NameU;
+                        layer1.Visible = Convert.ToBoolean(layer.CellsC[(short)Visio.VisCellIndices.visLayerVisible].ResultIU);
+                        layer1.Print = Convert.ToBoolean(layer.CellsC[(short)Visio.VisCellIndices.visLayerPrint].ResultIU);
+                        layer1.Active = Convert.ToBoolean(layer.CellsC[(short)Visio.VisCellIndices.visLayerActive].ResultIU);
+                        layer1.Lock = Convert.ToBoolean(layer.CellsC[(short)Visio.VisCellIndices.visLayerLock].ResultIU);
+                        layer1.Snap = Convert.ToBoolean(layer.CellsC[(short)Visio.VisCellIndices.visLayerSnap].ResultIU);
+                        layer1.Glue = Convert.ToBoolean(layer.CellsC[(short)Visio.VisCellIndices.visLayerGlue].ResultIU);
+                        layer1.Color = Convert.ToInt32(layer.CellsC[(short)Visio.VisCellIndices.visLayerColor].ResultIU);
+                        layer1.ColorTrans = Convert.ToDouble(layer.CellsC[(short)Visio.VisCellIndices.visLayerColorTrans].ResultIU);
+
+                        page1.Layers[layer1.Index] = layer1;
+                    }
+
+                    page1.Shapes[shape1.ID] = shape1;
                 }
 
-                VisioModel.Document.Pages[page.Name] = page1;
+                VisioModel.Document.Pages[page1.Name] = page1;
             }
         }
 

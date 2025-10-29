@@ -11,7 +11,7 @@
     <icon>icon.png</icon>
     <projectUrl>https://www.geradeaus.engineering/</projectUrl>
     <description>$description$</description>
-    <releaseNotes>Initial release.</releaseNotes>
+    <releaseNotes>Added Layers</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>Visio Export JSON</tags>
   </metadata>
